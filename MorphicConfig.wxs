@@ -30,6 +30,17 @@
       <ComponentRef Id="MorphicConfig"/>
     </Feature>
 
+    <!-- Remove the per-user reset to standard settings -->
+    <CustomAction Id="RemoveDefaultSettings"
+                  ExeCommand ='powershell -ExecutionPolicy ByPass -Command Remove-Item c:\users\*\appData\Roaming\gpii\defaultSettings.json5'
+                  Directory="TARGETDIR"
+                  Execute="deferred"
+                  Impersonate="no" Return="asyncWait" />
+
+    <InstallExecuteSequence>
+      <Custom Action="RemoveDefaultSettings" Before="InstallFinalize"></Custom>
+    </InstallExecuteSequence>
+
     <!-- Components  -->
     <!--DirectoryRef Id="MorphicConfigProgramDataFolder" /-->
 
